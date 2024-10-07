@@ -2,13 +2,13 @@ package com.example.taptaptap;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.text.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class HelloController {
+    long countSec = 100;
     long count = 10;
     long points = 0;
     @FXML
@@ -37,13 +37,18 @@ public class HelloController {
     @FXML
     public void upDateSec(ActionEvent actionEvent) {
         Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                points += secPoints;
-                point.setText(String.valueOf(points));
-            }
-        };
+        TimerTask task = null;
+        if (countSec <= points) {
+            points -= countSec;
+            task = new TimerTask() {
+                @Override
+                public void run() {
+                    points += secPoints;
+                    point.setText(String.valueOf(points));
+                }
+            };
+        } else return;
+        countSec += 100;
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
 }
